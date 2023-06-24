@@ -13,7 +13,7 @@ Galmuri11 (https://galmuri.quiple.dev)
 
 1. Download ezkernel.bin from release
 2. Move ezkernel.bin file to root of sd card
-3. Press and hold R button while booting Omega DE
+3. Press and hold R button while booting Omega
 4. When update screen appears, release R button and be careful not to turn off the power until completion
 5. After update is completed, change language from Settings to Korean
 --------------------------------------
