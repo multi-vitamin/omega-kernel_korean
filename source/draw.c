@@ -3,12 +3,13 @@
 #include <stdarg.h>
 #include <gba_base.h>
 #include <gba_dma.h>
+#include <string.h>
 
 
-#include "hzk12.h"
+#include "HZK12.h"
 #include "asc126.h"
 
-
+#include "draw.h"
 #include "ezkernel.h"
 
 
@@ -196,11 +197,11 @@ void DrawHZText12(char *str, u16 len, u16 x, u16 y, u16 c, u8 isDrawDirect)
 //---------------------------------------------------------------------------------
 void DEBUG_printf(const char *format, ...)
 {
-    char* str;
+    char str[128];
     va_list va;
 
     va_start(va, format);
-    vasprintf(&str, format, va);
+    vsprintf(str, format, va);
     va_end(va);
 
 		if(current_y==1)

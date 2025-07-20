@@ -17,6 +17,10 @@ extern u16 gl_engine_sel;
 extern u16 gl_show_Thumbnail;
 extern u16 gl_ingame_RTC_open_status;
 
+extern void CheckSwitch(void);
+extern void CheckLanguage(void);
+void save_setw_info(void);
+
 u16 SET_info_buffer [0x200]EWRAM_BSS;
 
 #define	K_A		 	 (0)
@@ -1119,7 +1123,7 @@ u32 Setting_window(void)
 								case 4:v_cheat = !v_cheat;break;	
 								case 2:
 									{
-										save_set_info();
+										save_setw_info();
 										CheckSwitch(); //read again  
 										Set_OK = 0;	
 										break;							
@@ -1128,7 +1132,7 @@ u32 Setting_window(void)
 						}
 						else if(select == 2) 
 						{
-							save_set_info();
+							save_setw_info();
 							CheckLanguage(); //read again    	
 							ClearWithBG((u16*)gImage_SET,0, 20, 240, 160-20, 1);
 							Set_OK = 0;													
@@ -1140,7 +1144,7 @@ u32 Setting_window(void)
 								case 0:engine_sel = !engine_sel;break;
 								case 1:
 									{
-										save_set_info();
+										save_setw_info();
 										Set_OK = 0;	
 										gl_engine_sel = Read_SET_info(11);
 										if( (gl_engine_sel != 0x0) && (gl_engine_sel != 0x1))
@@ -1153,12 +1157,12 @@ u32 Setting_window(void)
 						}
 						else if((select == 4)  && (sleep_pos==3))
 						{
-							save_set_info();
+							save_setw_info();
 							Set_OK = 0;
 						}			
 						else if((select == 5)  && (rtshotkey_pos==3))
 						{
-							save_set_info();
+							save_setw_info();
 							Set_OK = 0;	
 						}			
 						else if(select == 6) 
@@ -1168,7 +1172,7 @@ u32 Setting_window(void)
 								case 0:gl_ingame_RTC_open_status = !gl_ingame_RTC_open_status;break;
 								case 1:
 									{
-										save_set_info();
+										save_setw_info();
 										Set_OK = 0;	
 										gl_ingame_RTC_open_status = Read_SET_info(13);
 										if( (gl_ingame_RTC_open_status != 0x0) && (gl_ingame_RTC_open_status != 0x1))
@@ -1186,7 +1190,7 @@ u32 Setting_window(void)
 	}//end while(1)
 }
 //---------------------------------------------------------------------------------
-void save_set_info(void)
+void save_setw_info(void)
 {
 	if(language_sel == 0x0){//english						
 		SET_info_buffer[0] = 0xE1E1;

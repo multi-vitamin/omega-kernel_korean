@@ -21,7 +21,7 @@
 #define Vcache         (u16*)pReadCache
 #define RGB(r,g,b) ((r)+(g<<5)+(b<<10))
 
-#define PSRAMBase_S98			(u32)0x08800000
+#define PSRAMBase_S98			(void*)0x08800000
 #define FlashBase_S98 		(u32)0x09000000
 #define FlashBase_S98_end (u32)0x09800000
 
@@ -102,6 +102,6 @@ u32 Setting_window(void);
 
 u32 LoadRTSfile(TCHAR *filename);
 void ShowTime(u32 page_num ,u32 page_mode);
-
+void delay(u32 R0);
 
 //#endif

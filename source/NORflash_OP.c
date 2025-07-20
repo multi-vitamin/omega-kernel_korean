@@ -8,7 +8,9 @@
 #include <gba_systemcalls.h>
 
 #include "NORflash_OP.h"
+#include "Ezcard_OP.h"
 #include "ezkernel.h"
+#include "GBApatch.h"
 #include "draw.h"
 #include "lang.h"
 #define DEBUG
@@ -228,7 +230,7 @@ u32 Loadfile2NOR(TCHAR *filename, u32 NORaddress,u32 have_patch)
 		
 		filesize = f_size(&gfile);		
 		f_lseek(&gfile, 0xa0);		
-		f_read(&gfile, temp, 0x10, (u32 *)&ret);//read game name
+		f_read(&gfile, temp, 0x10, (UINT *)&ret);//read game name
 
 		memcpy(tmpNorFS.gamename,temp,0x10);
 		tmpNorFS.rompage = NORaddress >> 17;
@@ -287,7 +289,7 @@ u32 Loadfile2NOR(TCHAR *filename, u32 NORaddress,u32 have_patch)
 			Block_Erase(blocknum+NORaddress);
 
 			f_lseek(&gfile, blocknum);
-			f_read(&gfile, pReadCache, 0x20000, (u32 *)&ret);//pReadCache max 0x20000 Byte
+			f_read(&gfile, pReadCache, 0x20000, (UINT *)&ret);//pReadCache max 0x20000 Byte
 			if(have_patch){
 				if((gl_reset_on==1) || (gl_rts_on==1) || (gl_sleep_on==1) || (gl_cheat_on==1))		    
 				{
@@ -315,7 +317,7 @@ u32 Loadfile2NOR(TCHAR *filename, u32 NORaddress,u32 have_patch)
 			}
 		}
 		
-		Save_NOR_info(pNorFS,sizeof(FM_NOR_FS)*0x40);
+		Save_NOR_info((u16*)pNorFS,sizeof(FM_NOR_FS)*0x40);
 		return 0;
 	}		
 	else

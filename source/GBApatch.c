@@ -7,6 +7,7 @@
 #include "draw.h"
 #include "GBApatch.h"
 #include "gba_nes_patch.h"
+#include "Ezcard_OP.h"
 #include "ezkernel.h"
 #include "reset_table.h"
 #include "lang.h"
@@ -782,7 +783,7 @@ void Make_pat_file(TCHAR* gamefilename)
 		if(res == FR_OK)
 		{	
 			f_lseek(&gfile, 0x0000);
-			res=f_write(&gfile, (void*)iPatchInfo2, sizeof(iPatchInfo2), &written);
+			res=f_write(&gfile, (void*)iPatchInfo2, sizeof(iPatchInfo2), (UINT*)&written);
 			w_buffer[0] = is_NORpatch;
 			w_buffer[1] = windows_offset;
 			w_buffer[2] = is_Nes;
@@ -797,7 +798,7 @@ void Make_pat_file(TCHAR* gamefilename)
 			w_buffer[10] = gl_sleep_on;
 			w_buffer[11] = gl_cheat_on;
 					
-			res=f_write(&gfile, (void*)w_buffer, sizeof(w_buffer), &written);
+			res=f_write(&gfile, (void*)w_buffer, sizeof(w_buffer), (UINT*)&written);
 			f_close(&gfile);
 		}
 	}
@@ -882,7 +883,7 @@ void Make_mde_file(TCHAR* gamefilename,u8 Save_num)
 			f_lseek(&gfile, 0x0000);
 			
 			w_buffer[0] = Save_num;
-			res=f_write(&gfile, (void*)w_buffer, sizeof(w_buffer), &written);
+			res=f_write(&gfile, (void*)w_buffer, sizeof(w_buffer), (UINT*)&written);
 
 			f_close(&gfile);
 		}
@@ -928,7 +929,7 @@ u32 Check_RTS(TCHAR* gamefilename)
 			memset(pReadCache,0xFF,0x200*4);
 			for(i=0;i<(0x70000)/0x800 ;i++)
 			{
-	      f_write(&gfile, pReadCache, 0x200*4, &written);
+	      f_write(&gfile, pReadCache, 0x200*4, (UINT*)&written);
 	      if(written != 0x200*4) break;
 	    }
 	    f_close(&gfile);

@@ -1235,7 +1235,7 @@ u32 IWRAM_CODE Loadfile2PSRAM(TCHAR *filename)
 			sprintf(msg,"%luMb",(blocknum)/0x20000);
 			Clear(78+54,160-15,110,15,gl_color_cheat_black,1);
 			DrawHZText12(msg,0,78+54,160-15,gl_color_text,1);
-			f_read(&gfile, pReadCache, 0x20000, &ret);//pReadCache max 0x20000 Byte
+			f_read(&gfile, pReadCache, 0x20000, (UINT *)&ret);//pReadCache max 0x20000 Byte
 			
 			if((gl_reset_on==1) || (gl_rts_on==1) || (gl_sleep_on==1) || (gl_cheat_on==1))		    
 			{
@@ -1419,7 +1419,7 @@ u32 IWRAM_CODE LoadEMU2PSRAM(TCHAR *filename,u32 is_EMU)
 			Clear(78+54,160-15,110,15,gl_color_cheat_black,1);
 			DrawHZText12(msg,0,78+54,160-15,gl_color_text,1);
 			//f_lseek(&gfile, blocknum);
-			f_read(&gfile, pReadCache, 0x20000, &ret);//pReadCache max 0x20000 Byte
+			f_read(&gfile, pReadCache, 0x20000, (UINT *)&ret);//pReadCache max 0x20000 Byte
 						
 			Address=blocknum;
 			while(Address>=0x800000)
@@ -1458,7 +1458,7 @@ void save_set_info_SELECT(void)
 }
 //---------------------------------------------------------------------------------
 //Sort folder
-void Sort_folder(folder_total)
+void Sort_folder(u32 folder_total)
 {
 	u32 ret;
 	u32 i;
@@ -1482,7 +1482,7 @@ void Sort_folder(folder_total)
 }
 //---------------------------------------------------------------------------------
 //Sort file 
-void Sort_file(game_total_SD)
+void Sort_file(u32 game_total_SD)
 {
 	u32 ret;
 	u32 i;
@@ -1523,7 +1523,7 @@ u32 Load_Thumbnail(TCHAR *pfilename_pic)
 		res = f_open(&gfile,picpath, FA_READ);
 		if(res == FR_OK)
 		{
-			f_read(&gfile, pReadCache+0x10000, 0x4B38, &rett);			
+			f_read(&gfile, pReadCache+0x10000, 0x4B38, (UINT *)&rett);			
 			f_close(&gfile);	
 			return 1;												
 		}		
@@ -1533,7 +1533,7 @@ u32 Load_Thumbnail(TCHAR *pfilename_pic)
 }
 //---------------------------------------------------------------------------------
 //Delete file
-void SD_list_L_START(show_offset,file_select,folder_total)
+void SD_list_L_START(u32 show_offset,u32 file_select,u32 folder_total)
 {
 	u32 res;
 	
@@ -1696,7 +1696,7 @@ int main(void) {
 	if(game_total_NOR==0)
 	{
 		memset(pNorFS,00,sizeof(FM_NOR_FS)*MAX_NOR);
-		Save_NOR_info(pNorFS,sizeof(FM_NOR_FS)*MAX_NOR);
+		Save_NOR_info((u16*)pNorFS,sizeof(FM_NOR_FS)*MAX_NOR);
 	}
 
 refind_file:
@@ -1870,7 +1870,7 @@ re_showfile:
 	    	if(page_num==NOR_list)
 	    	{
 					Refresh_filename_NOR(show_offset,file_select,updata);
-					ClearWithBG(gImage_NOR,185, 0, 30, 18, 1);
+					ClearWithBG((u16*)gImage_NOR,185, 0, 30, 18, 1);
 	    	}
 	    	else
 	    	{
@@ -2534,7 +2534,7 @@ re_showfile:
 						//get the location of the patch
 						res = f_open(&gfile,pfilename, FA_READ);	
 						f_lseek(&gfile, (gamefilesize-1)&0xFFFE0000);
-						f_read(&gfile, pReadCache, 0x20000, &ret);
+						f_read(&gfile, pReadCache, 0x20000, (UINT *)&ret);
 						f_close(&gfile);
 						SetTrimSize(pReadCache,gamefilesize,0x20000,0x0,saveMODE);						
 						
@@ -2605,7 +2605,7 @@ re_showfile:
 						res = f_open(&gfile,pfilename, FA_READ);	
 						if(res==FR_OK){
 							f_lseek(&gfile, (gamefilesize-1)&0xFFFE0000);
-							f_read(&gfile, pReadCache, 0x20000, &ret);
+							f_read(&gfile, pReadCache, 0x20000, (UINT *)&ret);
 							f_close(&gfile);
 							SetTrimSize(pReadCache,gamefilesize,0x20000,0x1,saveMODE);
 						}

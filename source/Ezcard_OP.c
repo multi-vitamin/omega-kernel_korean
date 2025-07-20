@@ -8,10 +8,12 @@
 #include <gba_dma.h>
 #include <string.h>
 
-
+#include "Ezcard_OP.h"
 #include "ezkernel.h"
 #include "draw.h"
 #include "Newest_FW_ver.h"
+extern void HardReset(void);
+extern void SoftReset_now(void);
 extern u32 FAT_table_buffer[FAT_table_size/4]EWRAM_BSS;
 u32 crc32(unsigned char *buf, u32 size);
 
@@ -288,7 +290,7 @@ void IWRAM_CODE Bank_Switching(u8 bank)
 	*((vu8 *)(SAVE_sram_base+0x0000)) = bank ;	
 }
 // --------------------------------------------------------------------
-void IWRAM_CODE Save_info(u32 info_offset, u8 * info_buffer,u32 buffersize)
+void IWRAM_CODE Save_info(u32 info_offset, u16 * info_buffer,u32 buffersize)
 {
 	u32 offset;
 	vu16* buf = (vu16*)info_buffer ;
@@ -352,7 +354,7 @@ void IWRAM_CODE Save_info(u32 info_offset, u8 * info_buffer,u32 buffersize)
 	*((vu16 *)(FlashBase_S71)) = 0xF0;	
 }
 // --------------------------------------------------------------------
-void IWRAM_CODE Save_NOR_info(u8 * NOR_info_buffer,u32 buffersize)
+void IWRAM_CODE Save_NOR_info(u16 * NOR_info_buffer,u32 buffersize)
 {
 	Save_info(NOR_info_offset, NOR_info_buffer,buffersize);
 }

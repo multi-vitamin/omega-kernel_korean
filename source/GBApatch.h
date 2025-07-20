@@ -54,8 +54,10 @@ extern void Fire_Emblem_iQue_patch_start(void);
 extern void Fire_Emblem_iQue_patch_end(void);
 
 extern u32 gl_cheat_count;
+extern u32 Check_game_save_FAT(TCHAR *filename,u32 game_save_rts);
+extern void IWRAM_CODE Set_AUTO_save(u16  mode);
 
-
+void IWRAM_CODE PatchInternal(u32* Data,int iSize,u32 offset);
 void GBApatch_Cleanrom(u32* address,int filesize);
 void GBApatch_PSRAM(u32* address,int filesize);
 
@@ -67,7 +69,10 @@ u32 Check_RTS(TCHAR* gamefilename);
 u8 Check_mde_file(TCHAR* gamefilename);
 void Make_mde_file(TCHAR* gamefilename,u8 Save_num);
 
-void Patch_SpecialROM_sheepmode(void);
+void Patch_somegame(u32 *Data);
+void Check_Fire_Emblem(void);
+void Patch_SpecialROM_TrimSize(void);
+void Patch_SpecialROM_sleepmode(void);
 u32 use_internal_engine(u8 gamecode[]);
 u32 Check_cheat_file(TCHAR *gamefilename);
 void SetTrimSize(u8* buffer,u32 romsize,u32 iSize,u32 mode,BYTE saveMODE);
